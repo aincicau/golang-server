@@ -28,6 +28,11 @@ func PostPerson(rw http.ResponseWriter, r *http.Request) {
 	rw.Write(bodyBytes)
 }
 
+func GetPerson(rw http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	rw.Write([]byte(name))
+}
+
 func hasError(rw http.ResponseWriter, err error, message string) bool {
 	logger := new(logrus.Entry)
 	if err != nil {
