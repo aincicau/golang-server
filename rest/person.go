@@ -6,13 +6,12 @@ import (
 	"golangserver/entity"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 func PostPerson(rw http.ResponseWriter, r *http.Request) {
-	reqBody, err := r.GetBody()
-	if hasError(rw, err, "Internal issue") {
-		return
-	}
+	reqBody := r.Body
 
 	bodyBytes, err := ioutil.ReadAll(reqBody)
 	if hasError(rw, err, "Internal issue") {
@@ -30,7 +29,9 @@ func PostPerson(rw http.ResponseWriter, r *http.Request) {
 }
 
 func hasError(rw http.ResponseWriter, err error, message string) bool {
+	logger := new(logrus.Entry)
 	if err != nil {
+		logger.WithError(err).Error(message)
 		rw.Write([]byte(message))
 		return true
 	}

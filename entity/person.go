@@ -1,7 +1,7 @@
 package entity
 
 type Person struct {
-	Name   string
+	Name   string `json:"FirstName"`
 	Age    int
 	Gender string
 }
